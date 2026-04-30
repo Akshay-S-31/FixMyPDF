@@ -1,0 +1,294 @@
+/* ===================================================================
+   OpenPDF Editor — Visual Editor Theme
+   White + Copper Brown  ·  Two-screen layout
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* --- Tokens --- */
+:root {
+  --copper:        #B87333;
+  --copper-deep:   #A0522D;
+  --copper-light:  #D4956A;
+  --copper-pale:   #F0DCC8;
+  --copper-glow:   rgba(184,115,51,0.25);
+
+  --bg:            #FFFFFF;
+  --bg-warm:       #FAF7F4;
+  --text:          #2C2418;
+  --text-sec:      #6B5D4F;
+  --text-muted:    #9C8E7E;
+  --border:        #E8DFD5;
+
+  --success:       #3A8F5C;
+  --error:         #C04030;
+
+  --radius:        12px;
+  --radius-sm:     8px;
+  --shadow-sm:     0 1px 3px rgba(44,36,24,0.06);
+  --shadow-md:     0 4px 16px rgba(44,36,24,0.08);
+  --shadow-lg:     0 8px 32px rgba(44,36,24,0.12);
+  --transition:    0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* --- Reset --- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--text);background:var(--bg-warm);
+  line-height:1.6;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+
+/* ==========  SCREEN 1 — UPLOAD  ========== */
+.screen{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity 0.4s ease,transform 0.4s ease;
+}
+.screen.hidden{
+  opacity:0;pointer-events:none;transform:scale(0.97);
+}
+
+.upload-card{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:3rem 3.5rem;
+  text-align:center;
+  box-shadow:var(--shadow-lg);
+  max-width:520px;
+  width:90%;
+}
+
+.upload-card__icon{
+  width:56px;height:56px;
+  background:linear-gradient(135deg,var(--copper),var(--copper-deep));
+  border-radius:var(--radius-sm);
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-size:1.6rem;
+  box-shadow:0 3px 12px var(--copper-glow);
+  margin-bottom:1.25rem;
+}
+
+.upload-card h1{
+  font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;
+  margin-bottom:0.25rem;
+}
+.upload-card h1 span{color:var(--copper);}
+
+.upload-card__sub{
+  font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem;
+}
+
+/* Drop zone */
+.drop-zone{
+  border:2.5px dashed var(--copper-light);
+  border-radius:var(--radius);
+  padding:2.5rem 2rem;
+  cursor:pointer;
+  transition:all var(--transition);
+  background:var(--bg-warm);
+  position:relative;
+}
+.drop-zone:hover,.drop-zone.dragover{
+  border-color:var(--copper);
+  background:rgba(184,115,51,0.06);
+  box-shadow:0 0 0 5px var(--copper-glow);
+}
+.drop-zone.has-file{
+  border-color:var(--success);border-style:solid;
+  background:rgba(58,143,92,0.04);
+}
+.drop-zone__icon{
+  font-size:2.2rem;margin-bottom:0.5rem;
+  transition:transform var(--transition);
+}
+.drop-zone:hover .drop-zone__icon{transform:translateY(-4px);}
+.drop-zone__text{font-size:0.9rem;color:var(--text-sec);}
+.drop-zone__text strong{color:var(--copper);}
+.drop-zone__hint{font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem;}
+.drop-zone__file{
+  font-size:0.85rem;color:var(--success);font-weight:600;
+  margin-top:0.6rem;display:none;
+}
+.drop-zone.has-file .drop-zone__file{display:block;}
+.drop-zone input[type="file"]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;
+}
+
+/* Upload button */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;
+  padding:0.8rem 2rem;border:none;border-radius:var(--radius-sm);
+  font-family:inherit;font-size:0.9rem;font-weight:600;
+  cursor:pointer;transition:all var(--transition);
+  margin-top:1.5rem;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--copper),var(--copper-deep));
+  color:#fff;box-shadow:0 2px 8px var(--copper-glow);
+}
+.btn-primary:hover{
+  box-shadow:0 4px 20px rgba(184,115,51,0.35);transform:translateY(-1px);
+}
+.btn-primary:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none;}
+
+.btn .spinner{
+  width:18px;height:18px;
+  border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;
+  border-radius:50%;animation:spin 0.7s linear infinite;display:none;
+}
+.btn.loading .spinner{display:inline-block;}
+.btn.loading .btn-label{display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ==========  SCREEN 2 — EDITOR  ========== */
+#screen-editor{
+  flex-direction:column;align-items:stretch;
+  background:var(--bg-warm);
+}
+
+/* Toolbar */
+.toolbar{
+  display:flex;align-items:center;gap:1rem;
+  padding:0.75rem 1.5rem;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+  z-index:100;
+  flex-shrink:0;
+}
+.toolbar__back{
+  background:none;border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:0.4rem 0.75rem;font-size:0.85rem;
+  cursor:pointer;color:var(--text-sec);
+  transition:all var(--transition);font-family:inherit;
+}
+.toolbar__back:hover{border-color:var(--copper);color:var(--copper);}
+
+.toolbar__filename{
+  font-weight:600;font-size:0.95rem;color:var(--text);
+  flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+.toolbar__info{
+  font-size:0.8rem;color:var(--text-muted);
+  white-space:nowrap;
+}
+
+.toolbar__edits-badge{
+  font-size:0.75rem;font-weight:600;
+  background:var(--copper-pale);color:var(--copper-deep);
+  padding:0.2rem 0.6rem;border-radius:999px;
+  display:none;
+}
+.toolbar__edits-badge.show{display:inline-block;}
+
+.btn-sm{
+  padding:0.45rem 1.25rem;font-size:0.82rem;margin-top:0;
+}
+
+/* PDF Viewport */
+.pdf-viewport{
+  flex:1;overflow-y:auto;overflow-x:auto;
+  display:flex;flex-direction:column;align-items:center;
+  padding:1.5rem 1rem;
+  gap:1rem;
+}
+
+/* Per-page wrapper */
+.page-wrapper{
+  position:relative;
+  box-shadow:var(--shadow-md);
+  border-radius:4px;
+  overflow:hidden;
+  background:#fff;
+  flex-shrink:0;
+}
+.page-wrapper canvas{display:block;}
+
+/* Text overlay sits on top of canvas */
+.text-overlay{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  z-index:10;
+}
+
+/* Individual text span */
+.text-span{
+  position:absolute;
+  cursor:pointer;
+  white-space:pre;
+  border:1.5px solid transparent;
+  border-radius:2px;
+  transition:border-color 0.15s,background 0.15s;
+  line-height:1;
+  overflow:hidden;
+  padding:0 1px;
+  background:transparent;
+  color:transparent;    /* invisible text — just for click target */
+}
+.text-span:hover{
+  border-color:var(--copper-light);
+  background:rgba(184,115,51,0.08);
+}
+.text-span.editing{
+  border-color:var(--copper);
+  background:rgba(255,255,255,0.95);
+  color:inherit;        /* show the text while editing */
+  outline:none;
+  z-index:20;
+  box-shadow:0 0 0 3px var(--copper-glow);
+  overflow:visible;
+}
+.text-span.edited{
+  border-color:var(--success);
+  background:#fff;
+  color:inherit;
+  z-index:15;
+}
+.text-span.edited:hover{
+  border-color:var(--success);
+  background:#fff;
+}
+
+/* Page number labels */
+.page-label{
+  font-size:0.75rem;
+  color:var(--text-muted);
+  text-align:center;
+  margin-bottom:0.25rem;
+  font-weight:500;
+  flex-shrink:0;
+}
+
+/* ==========  TOAST  ========== */
+.toast-container{
+  position:fixed;top:1.25rem;right:1.25rem;z-index:9999;
+  display:flex;flex-direction:column;gap:0.5rem;
+}
+.toast{
+  padding:0.75rem 1.15rem;border-radius:var(--radius-sm);
+  font-size:0.84rem;font-weight:500;box-shadow:var(--shadow-lg);
+  display:flex;align-items:center;gap:0.5rem;
+  animation:toastIn 0.3s ease forwards;
+  min-width:260px;max-width:380px;
+}
+.toast.success{background:#EDF7F0;border:1px solid #B6DFC4;color:var(--success);}
+.toast.error{background:#FDF0EF;border:1px solid #EBBDB9;color:var(--error);}
+.toast.info{background:#EDF4FB;border:1px solid #B6D0E8;color:#3A7BBF;}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.toast.removing{animation:toastOut 0.3s ease forwards;}
+@keyframes toastOut{to{opacity:0;transform:translateX(30px)}}
+
+/* ==========  Responsive  ========== */
+@media(max-width:600px){
+  .upload-card{padding:2rem 1.5rem;}
+  .toolbar{flex-wrap:wrap;padding:0.6rem 1rem;}
+  .toolbar__filename{order:-1;width:100%;flex:none;}
+}

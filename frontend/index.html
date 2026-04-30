@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenPDF Editor — Free PDF Text Editing</title>
+  <meta name="description" content="Lightweight, private PDF editor. Replace text, insert elements, and inspect coordinates — all processed locally." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+</head>
+<body>
+  <!-- SCREEN 1: UPLOAD -->
+  <div class="screen" id="screen-upload">
+    <div class="upload-card">
+      <div class="upload-card__icon">📄</div>
+      <h1>Open<span>PDF</span> Editor</h1>
+      <p class="upload-card__sub">Private, local PDF editing — no uploads to external servers.</p>
+      <div class="drop-zone" id="drop-zone">
+        <div class="drop-zone__icon">⬆️</div>
+        <p class="drop-zone__text"><strong>Click or drag</strong> to upload a PDF</p>
+        <p class="drop-zone__hint">Only .pdf files accepted</p>
+        <p class="drop-zone__file" id="upload-file-name"></p>
+        <input type="file" accept=".pdf,application/pdf" id="file-upload" />
+      </div>
+      <button class="btn btn-primary" id="btn-start" disabled>
+        <span class="spinner"></span>
+        <span class="btn-label">Open Editor</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: EDITOR -->
+  <div class="screen hidden" id="screen-editor">
+    <div class="toolbar">
+      <button class="toolbar__back" id="btn-back">← Back</button>
+      <div class="toolbar__filename" id="editor-filename">document.pdf</div>
+      <div class="toolbar__info">
+        <span id="page-info">0 pages</span>
+        <span class="toolbar__edits-badge" id="edits-badge">0 edits</span>
+      </div>
+      <button class="btn btn-primary btn-sm" id="btn-save">
+        <span class="spinner"></span>
+        <span class="btn-label">Save & Download</span>
+      </button>
+    </div>
+    <div class="pdf-viewport" id="pdf-viewport">
+      <!-- Pages will be injected here -->
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+  <script src="app.js"></script>
+</body>
+</html>
